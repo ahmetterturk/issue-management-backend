@@ -1,14 +1,29 @@
-const getIssues = (req, res) => {
+const Issue = require('../models/issuesModel')
+
+
+
+
+const getIssues = async (req, res) => {
   try {
-    res.status(200).json('All issues');
+ 
+    const allIssues = await Issue.find({})
+    
+
+    res.status(200).json(allIssues);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-const createIssue = (req, res) => {
+
+
+const createIssue = async (req, res) => {
   try {
-    res.status(200).json('create issue');
+
+    const newIssue = new Issue(req.body)
+    const result = await newIssue.save()
+
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(error);
   }
