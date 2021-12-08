@@ -1,1 +1,40 @@
-console.log('model');
+const mongoose = require('mongoose');
+
+const issueSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    minlength: 3,
+  },
+  desc: {
+    type: String,
+    required: true,
+    minlength: 10,
+  },
+  type: {
+    type: Boolean,
+    default: false,
+  },
+  priority: {
+    type: String,
+    enum: { values: ['Low', 'High'], message: '{VALUE} is not supported' },
+  },
+  status: {
+    type: String,
+    enum: {
+      values: ['New', 'Pending', 'Resolved'],
+      message: '{VALUE} is not supported',
+    },
+    default: 'New',
+  },
+  members: {
+    type: Array,
+  },
+  userId: {
+    type: String,
+  },
+});
+
+const Issue = mongoose.model('Issue', issueSchema);
+
+module.exports = Issue;
