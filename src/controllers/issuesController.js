@@ -1,13 +1,10 @@
-const Issue = require('../models/issuesModel')
+// Get the Issue model from models folder
+const Issue = require('../models/issuesModel');
 
-
-
-
+// Get all issues
 const getIssues = async (req, res) => {
   try {
- 
-    const allIssues = await Issue.find({})
-    
+    const allIssues = await Issue.find();
 
     res.status(200).json(allIssues);
   } catch (error) {
@@ -15,13 +12,11 @@ const getIssues = async (req, res) => {
   }
 };
 
-
-
+// Create a new issue
 const createIssue = async (req, res) => {
   try {
-
-    const newIssue = new Issue(req.body)
-    const result = await newIssue.save()
+    const newIssue = new Issue(req.body);
+    const result = await newIssue.save();
 
     res.status(200).json(result);
   } catch (error) {
@@ -29,25 +24,52 @@ const createIssue = async (req, res) => {
   }
 };
 
-const getIssue = (req, res) => {
+// Get single issue by id
+const getIssue = async (req, res) => {
   try {
-    res.status(200).json(`get single issue ${req.params.id}`);
+    const { id } = req.params;
+    const singleIssue = await Issue.findById(id);
+
+    // if no issue found with the id, return this
+    if (!singleIssue) {
+      return res.status(404).json(`No issue with id ${id}`);
+    }
+
+    res.status(200).json(singleIssue);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-const updateIssue = (req, res) => {
+// Update issue found by id
+const updateIssue = async (req, res) => {
   try {
-    res.status(200).json(`update issue ${req.params.id}`);
+    const { id } = req.params;
+    const foundIssue = req.body;
+    const updatedIssue = await Issue.findByIdAndUpdate(id, foundIssue, {
+      new: true,
+      overwrite: true,
+      runValidators: true,
+    });
+
+    // if no issue found with the id, return this
+    if (!updatedIssue) {
+      return res.status(404).json(`No issue with id ${id}`);
+    }
+
+    res.status(200).json(updatedIssue);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-const deleteIssue = (req, res) => {
+// Delete issue found by id
+const deleteIssue = async (req, res) => {
   try {
-    res.status(200).json(`delete issue ${req.params.id}`);
+    const { id } = req.params;
+    await Issue.findByIdAndDelete(id);
+
+    res.status(200).json(`Issue has been deleted!`);
   } catch (error) {
     res.status(500).json(error);
   }
