@@ -36,8 +36,38 @@ const userSignUp = async (userDetails) => {
     });
 };
 
-// const userSignIn = async () => {};
+async function userSignIn(userDetails) {
+  const firebaseClientAuth = getAuth();
+
+  let signInResult = signInWithEmailAndPassword(
+    firebaseClientAuth,
+    userDetails.email,
+    userDetails.password
+  )
+    .then(async (userCredential) => {
+      let userIdToken = await firebaseClientAuth.currentUser.getIdTokenResult(
+        false
+      );
+
+      console.log(`userIdToken obj is\n ${JSON.stringify(userIdToken)}`);
+
+      return {
+        idToken: userIdToken.token,
+        refreshToken: userCredential.user.refreshToken,
+        email: userCredential.user.email,
+        emailVerified: userCredential.user.emailVerified,
+        uid: userCredential.user.uid,
+      };
+    })
+    .catch((error) => {
+      console.log('Internal signin function error is: \n' + error);
+      return { error: error };
+    });
+
+  return signInResult;
+}
 
 module.exports = {
   userSignUp,
+  userSignIn,
 };

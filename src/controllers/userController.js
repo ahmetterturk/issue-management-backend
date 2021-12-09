@@ -1,4 +1,4 @@
-const { userSignUp } = require('../user/userFunction');
+const { userSignUp, userSignIn } = require('../user/userFunction');
 
 const createUser = async (req, res) => {
   let newUserDetails = {
@@ -19,7 +19,34 @@ const createUser = async (req, res) => {
     res.json(signUpResult);
     return;
   }
-  res.json(signUpResult);
+
+  let signInResult = await userSignIn(newUserDetails);
+
+  if (signInResult.error != null) {
+    console.log('sign in failed, returning error ro requestor');
+    res.json(signInResult);
+    return;
+  }
+
+  res.json(signInResult);
 };
 
-module.exports = { createUser };
+const signInUser = async (req, res) => {
+  // Process posted form/json data
+  let existingUserDetails = {
+    email: req.body.email,
+    password: req.body.password,
+  };
+
+  let signInResult = await userSignIn(existingUserDetails);
+
+  if (signInResult.error != null) {
+    console.log('Sign in failed, returning error ro requestor');
+    res.json(signInResult);
+    return;
+  }
+
+  res.json(signInResult);
+};
+
+module.exports = { createUser, signInUser };
