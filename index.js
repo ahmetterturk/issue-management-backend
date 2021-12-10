@@ -25,6 +25,10 @@ app.use('/issues', issuesRouter);
 const userRouter = require('./src/routes/userRoutes');
 app.use('/users', userRouter);
 
+// profile router
+const profileRouter = require('./src/routes/profilesRoutes');
+app.use('/users', profileRouter);
+
 const start = () => {
   try {
     connectDB(process.env.DATABASE_URI);

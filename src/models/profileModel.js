@@ -7,8 +7,8 @@ const addressSchema = new mongoose.Schema({
 });
 
 const contactSchema = new mongoose.Schema({
-  phone: [Number],
-  email: [String],
+  phone: Number,
+  email: { type: String, unique: true },
   address: {
     type: addressSchema,
     required: true,
