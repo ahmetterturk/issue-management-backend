@@ -67,7 +67,11 @@ const updateIssue = async (req, res) => {
 const deleteIssue = async (req, res) => {
   try {
     const { id } = req.params;
-    await Issue.findByIdAndDelete(id);
+    const deletedIssue = await Issue.findByIdAndDelete(id);
+    
+    if (!deletedIssue) {
+      return res.status(404).json(`No issue with id ${id}`);
+    }
 
     res.status(200).json(`Issue has been deleted!`);
   } catch (error) {
