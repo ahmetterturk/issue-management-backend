@@ -2,11 +2,19 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const connectDB = require('./src/database/connect');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 5000;
 
+const corsOption = {
+  origin: '*',
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
 // middleware
 app.use(express.json());
+app.use(cors(corsOption));
 
 // auth firebase
 const firebaseAdmin = require('firebase-admin');
