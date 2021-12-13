@@ -1,36 +1,23 @@
 const mongoose = require('mongoose');
 
-const addressSchema = new mongoose.Schema({
-  city: String,
-  street: String,
-  streetNumber: Number,
-});
-
-const contactSchema = new mongoose.Schema({
-  phone: Number,
-  email: {
+const profileSchema = new mongoose.Schema({
+  fullName: {
     type: String,
     required: true,
-    unique: true,
   },
   address: {
-    type: addressSchema,
+    type: String,
     required: true,
   },
-});
+  emergencyContact: {
+    type: String,
+    required: true,
+  },
+  mobilePhone: {
+    type: String,
+    required: true,
+  },
 
-const profileSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  contactInfo: {
-    type: contactSchema,
-  },
   dateOfBirth: {
     type: Date,
     required: true,
