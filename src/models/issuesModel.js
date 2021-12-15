@@ -6,14 +6,13 @@ const issueSchema = new mongoose.Schema({
     required: true,
     minlength: 3,
   },
-  desc: {
+  description: {
     type: String,
     required: true,
     minlength: 10,
   },
   type: {
-    type: Boolean,
-    default: false,
+    type: String,
   },
   priority: {
     type: String,
