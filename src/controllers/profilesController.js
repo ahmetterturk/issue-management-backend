@@ -16,7 +16,6 @@ const createProfile = async (req, res) => {
   try {
     const newProfile = new Profile(req.body);
     const createdProfile = await newProfile.save();
-
     res.status(201).json(createdProfile);
   } catch (error) {
     res.status(500).json({ error: error });
