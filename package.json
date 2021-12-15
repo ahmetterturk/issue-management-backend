@@ -4,6 +4,7 @@
   "description": "T3A2-Backend",
   "main": "index.js",
   "scripts": {
+    "test": "jest --watchAll",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
@@ -19,6 +20,14 @@
     "mongoose": "^6.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "jest": "^27.4.5",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.1.6"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
