@@ -68,7 +68,7 @@ const deleteIssue = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedIssue = await Issue.findByIdAndDelete(id);
-    
+
     // if no issue found with the id, return this
     if (!deletedIssue) {
       return res.status(404).json(`No issue with id ${id}`);
