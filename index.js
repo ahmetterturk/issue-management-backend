@@ -3,6 +3,15 @@ const express = require('express');
 const app = express();
 const connectDB = require('./src/database/connect');
 const cors = require('cors');
+// for uploading file
+const fileUploader = require('express-fileupload');
+// using cloudinary to store images
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 const PORT = process.env.PORT || 5000;
 
@@ -15,6 +24,7 @@ const corsOption = {
 // middleware
 app.use(express.json());
 app.use(cors(corsOption));
+app.use(fileUploader({ useTempFiles: true }));
 
 // auth firebase
 const firebaseAdmin = require('firebase-admin');
