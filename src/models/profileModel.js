@@ -25,9 +25,9 @@ const profileSchema = new mongoose.Schema(
       trim: true,
     },
     image: {
-      type: String, 
-      required: true
-    }
+      type: String,
+      required: true,
+    },
     userId: {
       type: String,
       required: true,
