@@ -24,6 +24,11 @@ const corsOption = {
 // middleware
 app.use(express.json());
 app.use(cors(corsOption));
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  next();
+});
 app.use(fileUploader({ useTempFiles: true }));
 
 // auth firebase
