@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 const {
   getIssues,
   getIssue,
@@ -8,7 +9,10 @@ const {
   deleteIssue,
 } = require('../controllers/issuesController');
 
-router.route('/').get(getIssues).post(createIssue);
-router.route('/:id').get(getIssue).patch(updateIssue).delete(deleteIssue);
+router.get('/', auth, getIssues);
+router.post('/', auth, createIssue);
+router.get('/:id', auth, getIssue);
+router.patch('/:id', auth, updateIssue);
+router.delete('/:id', auth, deleteIssue);
 
 module.exports = router;
