@@ -4,10 +4,13 @@ const {
   signIn,
   signUp,
   updateUser,
+  deleteUser,
 } = require('../controllers/usersController');
+const auth = require('../middleware/auth');
 
 router.post('/signin', signIn);
 router.post('/signup', signUp);
-router.patch('/:id', updateUser);
+router.patch('/:id', auth, updateUser);
+router.delete('/:id', auth, deleteUser);
 
 module.exports = router;
