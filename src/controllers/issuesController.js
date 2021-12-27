@@ -14,16 +14,9 @@ const getIssues = async (req, res) => {
 
 // Create a new issue
 const createIssue = async (req, res) => {
-  console.log('before try', req.body);
-  // console.log(req.body);
   try {
     const newIssue = new Issue(req.body);
-
-    console.log(req.body);
-
     const result = await newIssue.save();
-
-    console.log(result);
 
     res.status(200).json(result);
   } catch (error) {
