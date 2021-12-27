@@ -6,7 +6,7 @@ const User = require('../models/userModel');
 let secret = process.env.JWT_SECRET;
 
 const signIn = async (req, res) => {
-  const { email, password, isAdmin } = req.body;
+  const { email, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -92,5 +92,25 @@ const signUp = async (req, res) => {
     console.log(error);
   }
 };
+
+// const updateUser = async (req, res) => {
+//   const { id } = req.params;
+//   const foundUser = req.body;
+
+//   try {
+//     if (!id) {
+//       return res.status(404).json({ error: 'Could bot find user' });
+//     }
+//     const updatedUser = await User.findByIdAndUpdate(id, foundUser, {
+//       new: true,
+//       overwrite: true,
+//       runValidators: true,
+//     });
+
+//     res.status(200).json({ updatedUser });
+//   } catch (error) {
+//     res.status(500).json({ error: error });
+//   }
+// };
 
 module.exports = { signIn, signUp };
