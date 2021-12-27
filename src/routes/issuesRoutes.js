@@ -8,7 +8,10 @@ const {
   deleteIssue,
 } = require('../controllers/issuesController');
 
-router.route('/').get(getIssues).post(createIssue);
-router.route('/:id').get(getIssue).patch(updateIssue).delete(deleteIssue);
+router.get('/', getIssues);
+router.post('/', createIssue);
+router.get('/:id', getIssue);
+router.patch('/:id', updateIssue);
+router.delete('/:id', deleteIssue);
 
 module.exports = router;

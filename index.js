@@ -31,26 +31,13 @@ app.use(function (req, res, next) {
 });
 app.use(fileUploader({ useTempFiles: true }));
 
-// auth firebase
-const firebaseAdmin = require('firebase-admin');
-firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(
-    JSON.parse(process.env.GOOGLE_FIREBASE_ADMIN)
-  ),
-});
+//user router
+const userRouter = require('./src/routes/userRoutes');
+app.use('/user', userRouter);
 
 // issue router
 const issuesRouter = require('./src/routes/issuesRoutes');
-
 app.use('/issues', issuesRouter);
-
-// user router
-const userRouter = require('./src/routes/userRoutes');
-app.use('/users', userRouter);
-
-// profile router
-const profileRouter = require('./src/routes/profilesRoutes');
-app.use('/users', profileRouter);
 
 const start = () => {
   try {
