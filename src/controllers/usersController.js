@@ -1,10 +1,8 @@
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-
 const User = require('../models/userModel');
 
 let secret = process.env.JWT_SECRET;
-
+// login user
 const signIn = async (req, res) => {
   const { email, password } = req.body;
 
@@ -15,27 +13,13 @@ const signIn = async (req, res) => {
       return res.status(404).json({ message: 'User does not exist' });
     }
 
-    const correctPassword = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
+    const correctPassword = await existingUser.comparePassword(password);
 
     if (!correctPassword) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign(
-      {
-        email: existingUser.email,
-        name: existingUser.name,
-        id: existingUser._id,
-        isAdmin: existingUser.isAdmin,
-      },
-      secret,
-      {
-        expiresIn: '1h',
-      }
-    );
+    const token = existingUser.createJWT();
 
     const userDetails = {
       name: existingUser.name,
@@ -48,7 +32,7 @@ const signIn = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 };
-
+// create user
 const signUp = async (req, res) => {
   const { email, password, firstName, lastName, isAdmin, imageUrl } = req.body;
 
@@ -59,33 +43,20 @@ const signUp = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    const result = await User.create({
+    const user = await User.create({
       email,
-      password: hashedPassword,
+      password: password,
       name: `${firstName} ${lastName}`,
       isAdmin,
       imageUrl: null,
     });
 
-    const token = jwt.sign(
-      {
-        email: result.email,
-        name: result.name,
-        id: result._id,
-        isAdmin: result.isAdmin,
-      },
-      secret,
-      {
-        expiresIn: '1h',
-      }
-    );
+    const token = user.createJWT();
 
     const userDetails = {
-      name: result.name,
-      email: result.email,
-      image: result.imageUrl,
+      name: user.name,
+      email: user.email,
+      image: user.imageUrl,
     };
 
     res.status(201).json({
@@ -99,24 +70,54 @@ const signUp = async (req, res) => {
   }
 };
 
-// const updateUser = async (req, res) => {
-//   const { id } = req.params;
-//   const foundUser = req.body;
+// Update user with Patch request
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { email, firstName, lastName, password, isAdmin, imageUrl } =
+      req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const updatingUser = {
+      email: email,
+      name: `${firstName} ${lastName}`,
+      imageUrl: imageUrl,
+      password: hashedPassword,
+      isAdmin,
+    };
 
-//   try {
-//     if (!id) {
-//       return res.status(404).json({ error: 'Could bot find user' });
-//     }
-//     const updatedUser = await User.findByIdAndUpdate(id, foundUser, {
-//       new: true,
-//       overwrite: true,
-//       runValidators: true,
-//     });
+    if (!id) {
+      return res.status(404).json({ error: `No user with id: ${id}` });
+    }
+    const updatedUser = await User.findByIdAndUpdate(id, updatingUser, {
+      overwrite: true,
+      new: true,
+      runValidators: true,
+    });
+    const token = updatedUser.createJWT();
+    const userDetails = {
+      name: updatedUser.name,
+      email: updatedUser.email,
+      image: updatedUser.imageUrl,
+    };
+    res.status(200).json({ userDetails, token });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
 
-//     res.status(200).json({ updatedUser });
-//   } catch (error) {
-//     res.status(500).json({ error: error });
-//   }
-// };
+// delete user
 
-module.exports = { signIn, signUp };
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(404).json({ error: `No user with id: ${id}` });
+    }
+    const deletedUser = await User.findByIdAndDelete(id);
+    res.status(200).json({ msg: 'User has been deleted!', deletedUser });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
+module.exports = { signIn, signUp, updateUser, deleteUser };
