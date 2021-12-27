@@ -27,6 +27,7 @@ const signIn = async (req, res) => {
     const token = jwt.sign(
       {
         email: existingUser.email,
+        name: existingUser.name,
         id: existingUser._id,
         isAdmin: existingUser.isAdmin,
       },
@@ -69,7 +70,12 @@ const signUp = async (req, res) => {
     });
 
     const token = jwt.sign(
-      { email: result.email, id: result._id, isAdmin: result.isAdmin },
+      {
+        email: result.email,
+        name: result.name,
+        id: result._id,
+        isAdmin: result.isAdmin,
+      },
       secret,
       {
         expiresIn: '1h',
