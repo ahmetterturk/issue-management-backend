@@ -1,7 +1,33 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
 
-let secret = process.env.JWT_SECRET;
+// Get all users
+const allUsers = async (req, res) => {
+  try {
+    const allUsers = await User.find({});
+    if (!allUsers) {
+      res.status(404).json({ msg: 'There are no users!' });
+    }
+    res.status(200).json({ allUsers });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
+// Get single users
+const singleUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const singleUser = await User.findById(id);
+    if (!singleUser) {
+      res.status(404).json({ msg: `No user with id: ${id}` });
+    }
+    res.status(200).json({ singleUser });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
 // login user
 const signIn = async (req, res) => {
   const { email, password } = req.body;
@@ -120,4 +146,11 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { signIn, signUp, updateUser, deleteUser };
+module.exports = {
+  signIn,
+  signUp,
+  updateUser,
+  deleteUser,
+  allUsers,
+  singleUser,
+};
