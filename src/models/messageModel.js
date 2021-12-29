@@ -5,6 +5,7 @@ const messageSchema = mongoose.Schema(
     messageBody: { type: String, required: true },
     issueId: { type: String, required: true },
     userName: { type: String, required: true },
+    userId: { type: String, required: true },
   },
   {
     timestamps: true,
