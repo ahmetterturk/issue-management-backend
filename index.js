@@ -39,6 +39,10 @@ app.use('/user', userRouter);
 const issuesRouter = require('./src/routes/issuesRoutes');
 app.use('/issues', issuesRouter);
 
+// messages router
+const messagesRouter = require('./src/routes/messagesRoutes');
+app.use('/messages', messagesRouter);
+
 const start = () => {
   try {
     connectDB(process.env.DATABASE_URI);
