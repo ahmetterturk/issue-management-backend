@@ -46,11 +46,7 @@ const updateIssue = async (req, res) => {
   try {
     const { id } = req.params;
     const foundIssue = req.body;
-    const updatedIssue = await Issue.findByIdAndUpdate(id, foundIssue, {
-      new: true,
-      overwrite: true,
-      runValidators: true,
-    });
+    const updatedIssue = await Issue.findByIdAndUpdate(id, foundIssue);
 
     // if no issue found with the id, return this
     if (!updatedIssue) {
