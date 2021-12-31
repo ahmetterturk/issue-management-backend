@@ -48,7 +48,8 @@ const signIn = async (req, res) => {
     const token = existingUser.createJWT();
 
     const userDetails = {
-      name: existingUser.name,
+      firstName: existingUser.firstName,
+      lastName: existingUser.lastName,
       email: existingUser.email,
       image: existingUser.imageUrl,
     };
@@ -70,9 +71,10 @@ const signUp = async (req, res) => {
     }
 
     const user = await User.create({
-      email,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
       password: password,
-      name: `${firstName} ${lastName}`,
       isAdmin,
       imageUrl: null,
     });
@@ -80,7 +82,8 @@ const signUp = async (req, res) => {
     const token = user.createJWT();
 
     const userDetails = {
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       image: user.imageUrl,
     };
@@ -104,8 +107,9 @@ const updateUser = async (req, res) => {
       req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const updatingUser = {
+      firstName: firstName,
+      lastName: lastName,
       email: email,
-      name: `${firstName} ${lastName}`,
       imageUrl: imageUrl,
       password: hashedPassword,
       isAdmin,
@@ -121,7 +125,8 @@ const updateUser = async (req, res) => {
     });
     const token = updatedUser.createJWT();
     const userDetails = {
-      name: updatedUser.name,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
       email: updatedUser.email,
       image: updatedUser.imageUrl,
     };
