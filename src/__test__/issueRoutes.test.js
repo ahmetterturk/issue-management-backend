@@ -2,7 +2,7 @@ const request = require('supertest');
 
 const issueRoutes = require('../routes/issuesRoutes');
 
-describe('Issues Api', () => {
+describe('Issues controller', () => {
   // test for get request of all issues
   it('GET /issues, should return all issues from databse', () => {
     request(issueRoutes)
