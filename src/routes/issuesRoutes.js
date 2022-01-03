@@ -9,7 +9,7 @@ const {
   deleteIssue,
 } = require('../controllers/issuesController');
 
-router.get('/', auth, getIssues);
+router.get('/', getIssues);
 router.post('/', auth, createIssue);
 router.get('/:id', auth, getIssue);
 router.patch('/:id', auth, updateIssue);
