@@ -4,10 +4,13 @@ const Issue = require('../models/issuesModel');
 // Get all issues
 const getIssues = async (req, res) => {
   const status = req.query.status;
+  const userId = req.query.userId;
   try {
     let allIssues;
     if (status) {
       allIssues = await Issue.find({ status: status });
+    } else if (userId) {
+      allIssues = await Issue.find({ userId: userId });
     } else {
       allIssues = await Issue.find();
     }
