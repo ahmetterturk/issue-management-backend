@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+// created user schema with mongoose schema and add the user properties
 const userSchema = mongoose.Schema(
   {
     firstName: { type: String },
@@ -18,9 +19,8 @@ const userSchema = mongoose.Schema(
 userSchema.pre('save', async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-  // next()
 });
-// mongoose middleware to create methods
+//Add an instance method to documents constructed from Models compiled from this schema, which can be call in the user controller to create a token
 userSchema.methods.createJWT = function () {
   return jwt.sign(
     {
@@ -35,7 +35,7 @@ userSchema.methods.createJWT = function () {
     }
   );
 };
-// mongoose middleware to compare password with bcrypt
+// Add an instance method to documents constructed from Models compiled from this schema, which can can be called to compare password by passing password from request as an arguments
 userSchema.methods.comparePassword = async function (inputPassword) {
   const isMatch = await bcrypt.compare(inputPassword, this.password);
   return isMatch;
