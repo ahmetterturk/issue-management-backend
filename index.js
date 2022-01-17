@@ -1,6 +1,8 @@
+// calling dotenv .config to configure env file for reading the keys
 require('dotenv').config();
 const express = require('express');
 const app = express();
+// import connectDB from database dir
 const connectDB = require('./src/database/connect');
 // import cors
 const cors = require('cors');
@@ -15,6 +17,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
+// port
 const PORT = process.env.PORT || 5000;
 
 // creating corsOption object for origin credentials and optionalSuccessStatus
@@ -52,7 +55,7 @@ const messagesRouter = require('./src/routes/messagesRoutes');
 // with "use" method we configure a middlware which is used by express http server and pass the messagesRouter to be used by express
 app.use('/messages', messagesRouter);
 
-// creating start fundtion to invoke the connectDB function and passing the atlas database uri and invole app listen to sync both method at the same time
+// creating start fundtion to invoke the connectDB function and passing the atlas database uri and invoke app listen to sync both method one after another
 const start = () => {
   try {
     connectDB(process.env.DATABASE_URI);

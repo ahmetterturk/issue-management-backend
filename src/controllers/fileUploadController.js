@@ -11,7 +11,7 @@ const uploadProfileImage = async (req, res) => {
     {
       // set use file name to true to use the current file name
       use_filename: true,
-      // in cloud we name the folder for uploading images lock-secutriy and we point the folder to the cloud folder
+      // in the cloud we name the folder for uploading images lock-secutriy and we point the folder to the cloud folder
       folder: 'lock-security',
     }
   );

@@ -16,7 +16,7 @@ const {
 router.get('/', getIssues);
 // making a post request to create an issue and pass auth middleware to authenticate the user before creating an issue
 router.post('/', auth, createIssue);
-// making a ger request to fetch single issue and pass auth middleware to aithenticate  user before fetching an issues
+// making a ger request to fetch single issue and pass auth middleware to aithenticate  user before fetching an issue
 router.get('/:id', auth, getIssue);
 // making patch request to update existing issue and pass auth middleware to authenticate user before updating an issue
 router.patch('/:id', auth, updateIssue);
