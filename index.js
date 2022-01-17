@@ -31,12 +31,14 @@ app.use(function (req, res, next) {
 });
 app.use(fileUploader({ useTempFiles: true }));
 
-//user router
+// importing userRouter
 const userRouter = require('./src/routes/userRoutes');
+// with "use" method we configure a middlware which is used by express http server and pass the userRouter to be used by express
 app.use('/user', userRouter);
 
-// issue router
+// importing issuesRouter
 const issuesRouter = require('./src/routes/issuesRoutes');
+// with "use" method we configure a middlware which is used by express http server and pass the isseusRouter to be used by express
 app.use('/issues', issuesRouter);
 
 // messages router
