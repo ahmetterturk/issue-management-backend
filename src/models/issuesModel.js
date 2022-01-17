@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Creating a mongoose schema for issues
 const issueSchema = new mongoose.Schema(
   {
     title: {
@@ -39,7 +40,7 @@ const issueSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+// creating isseus model with mongoose model and passing the scema as an argument to create our model
 const Issue = mongoose.model('Issue', issueSchema);
 
 module.exports = Issue;

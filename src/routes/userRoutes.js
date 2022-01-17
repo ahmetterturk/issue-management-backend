@@ -1,5 +1,5 @@
 const express = require('express');
-// declare router and assing the express Router
+// declare router and assign it to express Router
 const router = express.Router();
 // importing all users controller
 const {
