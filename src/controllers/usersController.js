@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
 
-// This function is for to find all user from DB,
+// allUsers function fetch all users from DB,
 const allUsers = async (req, res) => {
   try {
     // Getting all user with find method
@@ -54,7 +54,7 @@ const signIn = async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // create a token with existingUser details which use the createJWT method that we cteated in our userModel
+    // create a token with existingUser details which use the createJWT method that we cteated in our userModel with mogoose method middleware
     const token = existingUser.createJWT();
 
     // create userDetails object and add some properties to retrun as a response to the signin request
@@ -72,17 +72,17 @@ const signIn = async (req, res) => {
 };
 // create user
 const signUp = async (req, res) => {
-  // destructure email, password, firstName, lastName and isAdmin from request body 
+  // destructure email, password, firstName, lastName and isAdmin from request body
   const { email, password, firstName, lastName, isAdmin } = req.body;
 
   try {
     // declare exsiting user to see if the request email exist in DB
     const existingUser = await User.findOne({ email });
-    // if it does return 400 status code with error message the user alreasy exist 
+    // if it does return 400 status code with error message the user alreasy exist
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
-    // create user by passing values which come from the requst 
+    // create user by passing values which come from the requst
     const user = await User.create({
       firstName: firstName,
       lastName: lastName,
@@ -92,9 +92,9 @@ const signUp = async (req, res) => {
       imageUrl: null,
     });
 
-    // create a token with user details which use the createJWT method that we cteated in our userModel
+    // create a token with user details which use the createJWT method that we cteated in our userModel with mongoose methods middleware
     const token = user.createJWT();
-    // create an object for userDetails 
+    // create an object for userDetails
     const userDetails = {
       firstName: user.firstName,
       lastName: user.lastName,
@@ -142,7 +142,7 @@ const updateUser = async (req, res) => {
       new: true,
       runValidators: true,
     });
-    // create a token with updatedUser details which use the createJWT method that we cteated in our userModel
+    // create a token with updatedUser details which use the createJWT method that we cteated in our userModel with mongoose methods meddleware
     const token = updatedUser.createJWT();
     // create an object for userDetails
     const userDetails = {
@@ -177,6 +177,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// import all users controllers
 module.exports = {
   signIn,
   signUp,

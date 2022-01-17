@@ -1,14 +1,14 @@
-// Get the Issue model from models folder
+// import Issue model from models folder
 const Issue = require('../models/issuesModel');
 
 // Get all issues
 const getIssues = async (req, res) => {
-  // declaring status var and assigning request query of status to create a query string for fetching issues regarding status query
+  // declaring status var and assigning request query of status to create a query string for fetching issues by their status
   const status = req.query.status;
-  // declaring userId var and assigning request query of userId to create a query string for fetching issues regarding userId query
+  // declaring userId var and assigning request query of userId to create a query string for fetching issues by their userId query
   const userId = req.query.userId;
   try {
-    // define allIssues variable
+    // define allIssues variable and assign it to nothing
     let allIssues;
     // if there is query of status
     if (status) {
@@ -77,7 +77,7 @@ const updateIssue = async (req, res) => {
     if (!updatedIssue) {
       return res.status(404).json(`No issue with id ${id}`);
     }
-    // if there is, response with 200 ok and updatedIsseu in json format
+    // if there is, response with 200 ok and updatedIssue in json format
     res.status(200).json(updatedIssue);
   } catch (error) {
     res.status(500).json(error);
@@ -89,7 +89,7 @@ const deleteIssue = async (req, res) => {
   try {
     // destructure the id from request params
     const { id } = req.params;
-    // find issues by id and usee findByIdAndDelete method by passign the id to deletedIssue var
+    // find issues by id and usee findByIdAndDelete method by passing the id to deletedIssue var
     const deletedIssue = await Issue.findByIdAndDelete(id);
 
     // if no issue found with the id, return 404 status with not found msg

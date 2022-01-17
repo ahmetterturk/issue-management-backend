@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+// importing jsonwebtoken to create jwt
 const jwt = require('jsonwebtoken');
+// importing bcrypt to hash password before save
 const bcrypt = require('bcryptjs');
 // created user schema with mongoose schema and add the user properties
 const userSchema = mongoose.Schema(

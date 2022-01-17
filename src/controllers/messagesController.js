@@ -39,7 +39,7 @@ const deleteMessage = async (req, res) => {
     if (!deletedMessage) {
       return res.status(404).json(`No message with id ${id}`);
     }
-    // if there is response with 200 status and return msg and deletedMessage object as a json fromat
+    // if there is, response with 200 status and return msg and deletedMessage object as a json fromat
     res.status(200).json({ msg: 'Message has been deleted', deletedMessage });
   } catch (error) {
     res.status(500).json(error);
