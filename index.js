@@ -41,8 +41,9 @@ const issuesRouter = require('./src/routes/issuesRoutes');
 // with "use" method we configure a middlware which is used by express http server and pass the isseusRouter to be used by express
 app.use('/issues', issuesRouter);
 
-// messages router
+// importing messageRouter
 const messagesRouter = require('./src/routes/messagesRoutes');
+// with "use" method we configure a middlware which is used by express http server and pass the messagesRouter to be used by express
 app.use('/messages', messagesRouter);
 
 const start = () => {
